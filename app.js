@@ -19,7 +19,7 @@ const availableArgs = [
     },
     {
         name: '--all',
-        command: hitUrl,
+        command: hitDetailedUrl,
         desc: 'to output more details (used before --url)'
     },
 ]
@@ -32,7 +32,6 @@ if (args.length == 0) {
 var unavailableArgs = args.slice(0, args.length - 1).filter(arg => availableArgs[0].indexOf(arg) == -1 && arg.charAt(0) == '-')
 if (unavailableArgs.length > 0) {
     console.log(`Those arguments are not available, \n${unavailableArgs}\nType httpcurl --help for help\n`)
-    return
 }
 
 var url = args[args.length - 1]
@@ -47,27 +46,33 @@ function checkUrlWatch() {
         if (args.indexOf("--all") == -1) {
             hitUrl(0);
         } else {
-            hitUrl(1);
+            hitDetailedUrl();
         }
         console.log(`-------------------------------------------`)
     }, time);
 
 }
 
-function hitUrl(type) {
+function hitUrl() {
     exec(checkCommand, (err, stdout, stderr) => {
         if (err)
             throw err
         results = stdout.split(" ");
-        if (type) {
-            console.log(`\x1b[31mName Lookup time: ${results[0]}`);
-            console.log(`Connect time: ${results[1]}`);
-            console.log(`PreXfer time: ${results[2]}`);
-            console.log(`StartXfer time: ${results[3]}`);
-            console.log(`\x1b[0m`);
-        }
         console.log(`\x1b[31mTotal time to load ${url}: ${results[4]}\x1b[0m\n`);
     })
+}
+
+function hitDetailedUrl(){
+  exec(checkCommand, (err, stdout, stderr) => {
+    if(err)
+      throw err;
+    results = stdout.split(" ");
+    console.log(`\x1b[31mName Lookup time: ${results[0]}`);console.log(`Connect time: ${results[1]}`);
+    console.log(`PreXfer time: ${results[2]}`);
+    console.log(`StartXfer time: ${results[3]}`);
+    console.log(`\x1b[0m`);
+    console.log(`\x1b[31mTotal time to load ${url}: ${results[4]}\x1b[0m\n`);
+  })
 }
 
 function printHelp() {
