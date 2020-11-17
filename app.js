@@ -27,7 +27,7 @@ const availableArgs = [
 var args = process.argv.slice(2, process.argv.length);
 if (args.length == 0) {
     console.log("\x1b[31m")
-    console.log('You did not specify any arguments, please type "httpcurl/node app.js --help" for help\n\x1b[0m')
+    console.log('You did not specify any arguments, please type "node app.js --help" for help\n\x1b[0m')
 }
 var unavailableArgs = args.slice(0, args.length - 1).filter(arg => availableArgs[0].indexOf(arg) == -1 && arg.charAt(0) == '-')
 if (unavailableArgs.length > 0) {
@@ -62,17 +62,17 @@ function hitUrl() {
     })
 }
 
-function hitDetailedUrl(){
-  exec(checkCommand, (err, stdout, stderr) => {
-    if(err)
-      throw err;
-    results = stdout.split(" ");
-    console.log(`\x1b[31mName Lookup time: ${results[0]}`);console.log(`Connect time: ${results[1]}`);
-    console.log(`PreXfer time: ${results[2]}`);
-    console.log(`StartXfer time: ${results[3]}`);
-    console.log(`\x1b[0m`);
-    console.log(`\x1b[31mTotal time to load ${url}: ${results[4]}\x1b[0m\n`);
-  })
+function hitDetailedUrl() {
+    exec(checkCommand, (err, stdout, stderr) => {
+        if (err)
+            throw err;
+        results = stdout.split(" ");
+        console.log(`\x1b[31mName Lookup time: ${results[0]}`); console.log(`Connect time: ${results[1]}`);
+        console.log(`PreXfer time: ${results[2]}`);
+        console.log(`StartXfer time: ${results[3]}`);
+        console.log(`\x1b[0m`);
+        console.log(`\x1b[31mTotal time to load ${url}: ${results[4]}\x1b[0m\n`);
+    })
 }
 
 function printHelp() {
